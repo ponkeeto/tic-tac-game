@@ -1,6 +1,15 @@
-function Square(props) {
-    const {value, onSquareClick} = props
-  return <button className="Cell" onClick={onSquareClick}>{value}</button>;
+import "./Board.css";
+
+function Square({ value, onSquareClick }) {
+  return (
+    <button
+      className="Cell"
+      onClick={onSquareClick}
+      style={value === "X" ? { color: "red" } : { color: "blue" }}
+    >
+      {value}
+    </button>
+  );
 }
 
-export default Square
+export default Square;

@@ -5,10 +5,10 @@ import Score from "../Score/Score";
 import "./App.css";
 
 function App() {
-  const [xIsNext, setXIsNext] = useState(false);
-  const [squares, setSquares] = useState(Array(9).fill(null));
-  //const [scoreX, setScoreX] = useState(0);
-  //const [scoreO, setScoreO] = useState(0);
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState(0);
+  const xIsNext = currentMove % 2 === 0;
+  const currentSquares = history[currentMove];
 
   const checkWinner = (arr) => {
     const winCons = [
@@ -27,37 +27,54 @@ function App() {
         return arr[a];
       }
     }
+    if (!arr.some(elem => elem === null)) return "It's a draw"
     return null;
   };
 
-  /*const addTally = (winner) => {
-    if (winner === "X") {
-      setScoreX(() => scoreX + 1)
-    } else if (winner === "O") {
-      setScoreO(() => scoreO + 1)
-    }
-    return null;
-  };*/
+  const handlePlay = (nextSquares) => {
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
+  };
 
-  const resetGame = () => setSquares(Array(9).fill(null));
-  const winner = checkWinner(squares);
+  const jumpTo = (nextMove) => {
+    setCurrentMove(nextMove);
+  };
+
+  const moves = history.map((squares, move) => {
+    let description;
+    if (move > 0) {
+      description = "Go to move #" + move;
+    } else {
+      description = "Go to game start";
+    }
+    return (
+      <li key={move} className="Item">
+        <button className="Button" onClick={() => jumpTo(move)}>{description}</button>
+      </li>
+    );
+  });
 
   return (
     <div className="App">
       <Score
+        winner={checkWinner(currentSquares)}
         xIsNext={xIsNext}
-        winner={winner}
-        onReset={resetGame}
+        //onReset={resetGame}
         //x={scoreX}
         //o={scoreO}
       />
-      <Board
-        xIsNext={xIsNext}
-        setXIsNext={setXIsNext}
-        squares={squares}
-        setSquares={setSquares}
-        checkWinner={checkWinner}
-      />
+      <div className="Game">
+        <Board
+          xIsNext={xIsNext}
+          squares={currentSquares}
+          onPlay={handlePlay}
+          hasWinner={checkWinner(currentSquares)}
+        />
+        <div className="Game-info">
+          <ol>{moves}</ol>
+        </div>
+      </div>
     </div>
   );
 }
