@@ -4,9 +4,9 @@ import Score from "../Score/Score";
 import { useSelector, useDispatch } from "react-redux";
 import { selectGame, jumpTo } from "./reducer";
 
-import "./App.css";
+import "./Game.css";
 
-function App() {
+function Game() {
   const game = useSelector(selectGame);
   const { history } = game;
   const currentMove = history.length - 1
@@ -71,4 +71,4 @@ function App() {
   );
 }
 
-export default App;
+export default Game;

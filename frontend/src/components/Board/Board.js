@@ -1,7 +1,7 @@
 import Square from "./Square";
 import "./Board.css";
 import { useDispatch } from "react-redux";
-import { handlePlay } from "../App/reducer";
+import { handlePlay } from "../Game/reducer";
 
 function Board({ squares, xIsNext, hasWinner }) {
   const dispatch = useDispatch();

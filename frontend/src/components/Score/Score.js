@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { selectGame, increment, handleReset } from "../App/reducer";
+import { selectGame, increment, handleReset } from "../Game/reducer";
 import { useEffect } from "react";
 
 function Score({ hasWinner, xIsNext }) {
@@ -7,16 +7,16 @@ function Score({ hasWinner, xIsNext }) {
   const { scoreX, scoreO, scoreDraws } = game;
   const dispatch = useDispatch();
   const win = ["X", "O"];
-  
+
   useEffect(() => {
-    if(hasWinner) {
+    if (hasWinner) {
       if (win.includes(hasWinner)) {
         dispatch(increment(hasWinner));
       } else {
-        dispatch(increment('Draw'));
+        dispatch(increment("Draw"));
       }
     }
-  }, [dispatch])
+  }, [dispatch]);
 
   const display = () => {
     if (hasWinner) {
@@ -38,7 +38,9 @@ function Score({ hasWinner, xIsNext }) {
           X: {scoreX} D: {scoreDraws} O: {scoreO}
         </h2>
         <h1>{display()}</h1>
-        {hasWinner && (<button onClick={()=> dispatch(handleReset())}>New Game?</button>)}
+        {hasWinner && (
+          <button onClick={() => dispatch(handleReset())}>New Game?</button>
+        )}
       </div>
     </>
   );
