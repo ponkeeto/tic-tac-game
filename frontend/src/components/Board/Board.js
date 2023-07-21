@@ -1,7 +1,10 @@
 import Square from "./Square";
 import "./Board.css";
+import { useDispatch } from "react-redux";
+import { handlePlay } from "../App/reducer";
 
-function Board({ squares, onPlay, xIsNext, hasWinner }) {
+function Board({ squares, xIsNext, hasWinner }) {
+  const dispatch = useDispatch();
   const rows = [0, 1, 2];
   const handleClick = (i) => {
     if (squares[i] || hasWinner) return;
@@ -11,7 +14,7 @@ function Board({ squares, onPlay, xIsNext, hasWinner }) {
     } else {
       newSquares[i] = "O";
     }
-    onPlay(newSquares);
+    dispatch(handlePlay(newSquares));
   };
 
   return (

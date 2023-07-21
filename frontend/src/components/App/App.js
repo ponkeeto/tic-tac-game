@@ -1,12 +1,15 @@
-import { useState } from "react";
 import Board from "../Board/Board";
 import Score from "../Score/Score";
+
+import { useSelector, useDispatch } from "react-redux";
+import { selectGame, jumpTo } from "./reducer";
 
 import "./App.css";
 
 function App() {
-  const [history, setHistory] = useState([Array(9).fill(null)]);
-  const [currentMove, setCurrentMove] = useState(0);
+  const game = useSelector(selectGame);
+  const { history, currentMove } = game;
+  const dispatch = useDispatch();
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
@@ -21,24 +24,14 @@ function App() {
       [0, 4, 8],
       [2, 4, 6],
     ];
+    if (!arr.some(square => square === null)) return "Draw"
     for (let i = 0; i < winCons.length; i++) {
       const [a, b, c] = winCons[i];
       if (arr[a] && arr[a] === arr[b] && arr[a] === arr[c]) {
         return arr[a];
       }
     }
-    if (!arr.some(elem => elem === null)) return "It's a draw"
     return null;
-  };
-
-  const handlePlay = (nextSquares) => {
-    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
-    setHistory(nextHistory);
-    setCurrentMove(nextHistory.length - 1);
-  };
-
-  const jumpTo = (nextMove) => {
-    setCurrentMove(nextMove);
   };
 
   const moves = history.map((squares, move) => {
@@ -50,7 +43,9 @@ function App() {
     }
     return (
       <li key={move} className="Item">
-        <button className="Button" onClick={() => jumpTo(move)}>{description}</button>
+        <button className="Button" onClick={() => dispatch(jumpTo(move))}>
+          {description}
+        </button>
       </li>
     );
   });
@@ -58,17 +53,13 @@ function App() {
   return (
     <div className="App">
       <Score
-        winner={checkWinner(currentSquares)}
+        hasWinner={checkWinner(currentSquares)}
         xIsNext={xIsNext}
-        //onReset={resetGame}
-        //x={scoreX}
-        //o={scoreO}
       />
       <div className="Game">
         <Board
           xIsNext={xIsNext}
           squares={currentSquares}
-          onPlay={handlePlay}
           hasWinner={checkWinner(currentSquares)}
         />
         <div className="Game-info">

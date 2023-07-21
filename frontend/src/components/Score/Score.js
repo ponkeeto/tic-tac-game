@@ -1,18 +1,20 @@
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { selectGame, increment, handleReset } from "../App/reducer";
 
-function Score({ winner, xIsNext }) {
-  const [scoreX] = useState(0);
-  const [scoreO] = useState(0);
-  const [draws, setDraws] = useState(0);
+function Score({ hasWinner, xIsNext }) {
+  const game = useSelector(selectGame);
+  const { scoreX, scoreO, scoreDraws } = game;
+  const dispatch = useDispatch();
 
   const win = ["X", "O"];
   const display = () => {
-    if (winner) {
-      if (win.includes(winner)) {
-        return `Winner is ${winner}`;
+    if (hasWinner) {
+      if (win.includes(hasWinner)) {
+        dispatch(increment({type: hasWinner}), [])
+        return `Winner is ${hasWinner}`;
       } else {
-        setDraws(draws + 1)
-        return winner;
+        dispatch(increment({type: 'Draw'}), [])
+        return "It's a draw!";
       }
     } else {
       return `Playing: ${xIsNext ? "X" : "O"}`;
@@ -24,9 +26,10 @@ function Score({ winner, xIsNext }) {
       <div>
         <h1>SCORE</h1>
         <h2>
-          X: {scoreX} O: {scoreO} D: {draws}
+          X: {scoreX} D: {scoreDraws} O: {scoreO}
         </h2>
         <h1>{display()}</h1>
+        {hasWinner && (<button onClick={()=> dispatch(handleReset())}>New Game?</button>)}
       </div>
     </>
   );
