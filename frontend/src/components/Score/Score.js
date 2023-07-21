@@ -1,19 +1,28 @@
 import { useSelector, useDispatch } from "react-redux";
 import { selectGame, increment, handleReset } from "../App/reducer";
+import { useEffect } from "react";
 
 function Score({ hasWinner, xIsNext }) {
   const game = useSelector(selectGame);
   const { scoreX, scoreO, scoreDraws } = game;
   const dispatch = useDispatch();
-
   const win = ["X", "O"];
+  
+  useEffect(() => {
+    if(hasWinner) {
+      if (win.includes(hasWinner)) {
+        dispatch(increment(hasWinner));
+      } else {
+        dispatch(increment('Draw'));
+      }
+    }
+  }, [dispatch])
+
   const display = () => {
     if (hasWinner) {
       if (win.includes(hasWinner)) {
-        dispatch(increment({type: hasWinner}), [])
         return `Winner is ${hasWinner}`;
       } else {
-        dispatch(increment({type: 'Draw'}), [])
         return "It's a draw!";
       }
     } else {

@@ -8,7 +8,8 @@ import "./App.css";
 
 function App() {
   const game = useSelector(selectGame);
-  const { history, currentMove } = game;
+  const { history } = game;
+  const currentMove = history.length - 1
   const dispatch = useDispatch();
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];

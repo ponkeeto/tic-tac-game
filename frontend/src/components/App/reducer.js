@@ -30,7 +30,6 @@ export const gameSlice = createSlice({
   name: "game",
   initialState: {
     history: [Array(9).fill(null)],
-    currentMove: 0,
     scoreX: 0,
     scoreO: 0,
     scoreDraws: 0,
@@ -38,25 +37,23 @@ export const gameSlice = createSlice({
   reducers: {
     handlePlay: (state, action) => {
       state.history.push(action.payload)
-      state.currentMove = state.history.length -1
     },
     jumpTo: (state, action) => {
-      state.currentMove = action.payload;
+      state.history = state.history.slice(0, action.payload + 1)
     },
     handleReset: (state) => {
       state.history = [Array(9).fill(null)];
-      state.currentMove = 0;
     },
     increment: (state, action) => {
-      switch (action.type) {
+      switch (action.payload) {
         case "X":
-          state.scoreX += 1;
+          state.scoreX++;
           break;
         case "O":
-          state.scoreO += 1;
+          state.scoreO++;
           break;
         case "Draw":
-          state.scoreDraws += 1;
+          state.scoreDraws++;
           break;
         default:
           break;
