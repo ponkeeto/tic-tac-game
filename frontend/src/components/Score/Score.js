@@ -16,7 +16,7 @@ function Score({ hasWinner, xIsNext }) {
         dispatch(increment("Draw"));
       }
     }
-  }, [dispatch]);
+  }, [dispatch, hasWinner]);
 
   const display = () => {
     if (hasWinner) {

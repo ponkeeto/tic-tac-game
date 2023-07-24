@@ -1,8 +1,7 @@
-import HomePage from './pages/home';
-import SearchPage from './pages/search';
-import PetDetailsPage from './pages/detail';
-import PetDetailsNotFound from './pages/petDetailsNotFound';
-import Root from './components/root';
+import HomePage from './pages/HomePage';
+import GamePage from './pages/GamePage';
+import GameNotFound from './pages/GameNotFound';
+import Root from './components/Root';
 
 // Add react-router-dom imports
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
@@ -11,10 +10,8 @@ import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } 
 const appRouter = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={ <Root />} >
     <Route index element={ <HomePage /> } />
-    <Route path=':type' element={ <HomePage /> } />
-    <Route path=':type/:id' element={ <PetDetailsPage /> } />
-    <Route path='search' element={ <SearchPage /> } />
-    <Route path='pet-details-not-found' element={ <PetDetailsNotFound /> } />
+    <Route path=':id' element={ <GamePage /> } />
+    <Route path='game-not-found' element={ <GameNotFound /> } />
   </Route>
 ));
 

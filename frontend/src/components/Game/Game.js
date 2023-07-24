@@ -25,13 +25,13 @@ function Game() {
       [0, 4, 8],
       [2, 4, 6],
     ];
-    if (!arr.some(square => square === null)) return "Draw"
     for (let i = 0; i < winCons.length; i++) {
       const [a, b, c] = winCons[i];
       if (arr[a] && arr[a] === arr[b] && arr[a] === arr[c]) {
         return arr[a];
       }
     }
+    if (!arr.some(square => square === null)) return "Draw"
     return null;
   };
 
